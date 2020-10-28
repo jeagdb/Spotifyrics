@@ -62,10 +62,8 @@ app.get("/callback", function(request, response) {
       response.redirect("/playlists");
     },
     error => {
-      console.log(
-        "Something went wrong when retrieving the access token!",
-        error.message
-      );
+      console.log("Something went wrong when retrieving the access token!")
+      response.render("/error", { error });
     }
   );
 });
@@ -80,9 +78,11 @@ app.get("/tracks", async function(request, response) {
 });
 
 app.get("/playlists", async function(request, response) {
-  //let loggedInSpotifyApi = new SpotifyWebApi();
   await spotifyApi.setAccessToken(request.session.access_token);
   playlists = await getPlaylists(spotifyApi);
+  if (playlists === null) {
+    return response.render("error", { error: "playlist est nulle"})
+  }
   return response.render("playlists", { playlists })
 });
 

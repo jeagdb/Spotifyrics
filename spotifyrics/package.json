@@ -1,5 +1,5 @@
 {
-  "name": "Spotifyrics",
+  "name": "spotifyrics",
   "version": "0.0.1",
   "description": "Get the lyrics of your favorite songs !",
   "main": "server.js",
