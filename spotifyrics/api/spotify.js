@@ -1,10 +1,8 @@
 module.exports = {
   getPlaylists: async (spotifyApi) => {
-    console.log("playlists");
-    return spotifyApi.getUserPlaylists().then(
+    return spotifyApi.getUserPlaylists()
+    .then(
       data => {
-        console.log(data.body.items);
-        console.log("XXXXXXXXXXXXXXXX");
         return data.body.items;
       },
       error => {
@@ -14,19 +12,21 @@ module.exports = {
     );
   },
   getTracks: async (spotifyApi, playlistId) => {
-    return spotifyApi
-      .getPlaylistTracks(playlistId, {
+    return spotifyApi.getPlaylistTracks(playlistId, {
         offset: 1,
         limit: 5,
-        fields: "items"
       })
       .then(
         data => {
-          console.log("The playlist contains these tracks", data.body);
+          console.log("The playlist contains these tracks", data.body.items);
+          return data.body.items;
         },
         err => {
           console.log("Something went wrong!", err);
+          return null;
         }
       );
+  },
+  getLyrics: async () => {
   }
 };

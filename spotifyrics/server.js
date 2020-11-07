@@ -38,12 +38,12 @@ let spotifyApi = new SpotifyWebApi({
 });
 
 let playlists = [];
-
+let playlistsSongs = new Map();
+let tokenAccess = "";
 
 ////////////////////////////////// API
 
 app.get("/authorize", function(request, response) {
-  response.header("Access-Control-Allow-Origin", "*");
   let state = crypto.randomBytes(12).toString("hex");
   request.session.state = state;
   let authorizeURL = spotifyApi.createAuthorizeURL(scopes, state, showDialog);
@@ -51,7 +51,6 @@ app.get("/authorize", function(request, response) {
 });
 
 app.get("/callback", function(request, response) {
-  response.header("Access-Control-Allow-Origin", "*");
   if (request.session.state !== request.query.state) {
     response.sendStatus(401);
   }
@@ -59,6 +58,7 @@ app.get("/callback", function(request, response) {
   spotifyApi.authorizationCodeGrant(authorizationCode).then(
     data => {
       request.session.access_token = data.body["access_token"];
+      tokenAccess = request.session.access_token;
       response.redirect("/playlists");
     },
     error => {
@@ -68,22 +68,39 @@ app.get("/callback", function(request, response) {
   );
 });
 
+app.get("/back", function(request, response) {
+  response.render("playlists", { playlists, playlistsSongs });
+});
+
 app.get("/logout", function(request, response) {
   request.session.destroy();
   response.redirect("/");
 });
 
+app.get("/lyrics", function(request, response) {
+  console.log("here");
+  response.render("lyrics", {});
+});
+
 app.get("/tracks", async function(request, response) {
-  //let songs = await getTracks(spotifyApi, )
+  await spotifyApi.setAccessToken(tokenAccess);
+  for (playlist of playlists) {
+    let songs = await getTracks(spotifyApi, playlist.id);
+    console.log(songs[0].track);
+    playlistsSongs.set(playlist.id, songs);
+  }
+  response.render("playlists", { playlists, playlistsSongs })
 });
 
 app.get("/playlists", async function(request, response) {
-  await spotifyApi.setAccessToken(request.session.access_token);
+  await spotifyApi.setAccessToken(tokenAccess);
   playlists = await getPlaylists(spotifyApi);
   if (playlists === null) {
-    return response.render("error", { error: "playlist est nulle"})
+    response.render("error", { error: "Impossible de récupérer les playlists"})
+  } else {
+    response.redirect("/tracks");
   }
-  return response.render("playlists", { playlists })
+  //return response.render("playlists", { playlists })
 });
 
 let listener = app.listen(process.env.PORT, function() {
