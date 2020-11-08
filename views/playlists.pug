@@ -1,0 +1,18 @@
+extends layout.pug
+
+block content
+  h1="My playlists"
+  ul(class='list-group list-group-flush')
+    each playlist in playlists
+      h3(class='list-group-item')=playlist.name
+        a(href='/tracks')
+        span(class="badge badge-primary badge-pill")=playlist.tracks.total
+      each song in playlistsSongs.get(playlist.id)
+        li(class='list-group-item')
+          p(class='mr-3')=song.track.name
+            a(href='/lyrics', class='w-100 btn') 🎤
+        
+block footer
+  ul(class='footer')
+    li
+      a(href='/logout', class='btn btn-secondary') Log out
