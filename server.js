@@ -6,7 +6,20 @@ require("dotenv").config();
 
 const app = express();
 
-const { getPlaylists, getTracks } = require("./api/spotify.js")
+const { getPlaylists, getTracks } = require("./api/spotify.js");
+const redirectUri = process.env.PROJECT_DOMAIN + "/callback";
+const scopes = [];
+const showDialog = true;
+
+let spotifyApi = new SpotifyWebApi({
+  clientId: process.env.SPOTIFY_CLIENT_ID,
+  clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+  redirectUri: redirectUri
+});
+
+let playlists = [];
+let playlistsSongs = new Map();
+let tokenAccess = "";
 
 app.set("view engine", "pug");
 app.set("trust proxy", 1);
@@ -24,24 +37,6 @@ app.use(
 app.get("/", function(request, response) {
   response.render("index");
 });
-
-////////////////////////////////// DATAS
-const redirectUri =
-  process.env.PROJECT_DOMAIN + "/callback";
-const scopes = [];
-const showDialog = true;
-
-let spotifyApi = new SpotifyWebApi({
-  clientId: process.env.SPOTIFY_CLIENT_ID,
-  clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-  redirectUri: redirectUri
-});
-
-let playlists = [];
-let playlistsSongs = new Map();
-let tokenAccess = "";
-
-////////////////////////////////// API
 
 app.get("/authorize", function(request, response) {
   let state = crypto.randomBytes(12).toString("hex");
@@ -83,7 +78,7 @@ app.get("/lyrics", function(request, response) {
 });
 
 app.get("/tracks", async function(request, response) {
-  await spotifyApi.setAccessToken(tokenAccess);
+  spotifyApi.setAccessToken(tokenAccess);
   for (playlist of playlists) {
     let songs = await getTracks(spotifyApi, playlist.id);
     console.log(songs[0].track);
@@ -93,14 +88,13 @@ app.get("/tracks", async function(request, response) {
 });
 
 app.get("/playlists", async function(request, response) {
-  await spotifyApi.setAccessToken(tokenAccess);
+  spotifyApi.setAccessToken(tokenAccess);
   playlists = await getPlaylists(spotifyApi);
   if (playlists === null) {
     response.render("error", { error: "Impossible de récupérer les playlists"})
   } else {
     response.redirect("/tracks");
   }
-  //return response.render("playlists", { playlists })
 });
 
 let listener = app.listen(process.env.PORT, function() {
