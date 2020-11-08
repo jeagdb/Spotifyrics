@@ -1,16 +1,12 @@
-1. fetch spotify api
-- get the user playlists X
-- get the songs of each playlist
-- plays the selected song
+# :notes: SPOTIFYRICS :notes:
+Application Node.js qui récupère les playlists de l'utilisateur 
+et propose les lyrics de chacune des chansons.
 
-2. fetch genius api
-- get the html page of the selected song
-- get only the lyrics
-- display the lyrics
+Utilisation de l'API spotify + site Genius.
 
-3. 
-- beautiful playlists + songs display
-- when play button pressed : animation of music + animation of text.
-
-5.
-- Update Readme + github
+## Comment lier son compte spotify ?
+Créer un fichier .env avec au moins les variables suivantes: 
+- SPOTIFY_CLIENT_ID -> récupérable sur le site spotify API (dans le dashboard)
+- SPOTIFY_CLIENT_SECRET -> récupérable sur le site spotify API (dans le dashboard)
+- SESSION_SECRET
+- PROJECT_DOMAIN -> nom de domaine :warning: Il faut également indiquer cette adresse + '/callback' dans les options des dashboards en tant qu'url de redirection.
