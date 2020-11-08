@@ -27,7 +27,7 @@ app.get("/", function(request, response) {
 
 ////////////////////////////////// DATAS
 const redirectUri =
-  process.env.PROJECT_DOMAIN + ":5000/callback";
+  process.env.PROJECT_DOMAIN + "/callback";
 const scopes = [];
 const showDialog = true;
 
