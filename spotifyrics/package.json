@@ -1,10 +1,11 @@
 {
   "name": "spotifyrics",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Get the lyrics of your favorite songs !",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "axios": "^0.21.0",
@@ -16,9 +17,14 @@
     "spotify-web-api-node": "^4.0.0"
   },
   "license": "MIT",
+  "author": "picou75",
   "keywords": [
     "node",
-    "glitch",
-    "express"
-  ]
+    "express",
+    "spotifyrics",
+    "spotify API"
+  ],
+  "engines": {
+    "node": "10.x"
+  }
 }
