@@ -18,7 +18,6 @@ module.exports = {
       })
       .then(
         data => {
-          console.log("The playlist contains these tracks", data.body.items);
           return data.body.items;
         },
         err => {

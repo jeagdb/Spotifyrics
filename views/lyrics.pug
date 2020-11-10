@@ -2,7 +2,10 @@ extends layout.pug
 
 block content
   h1="Lyrics"
-        
+    h2=author
+      each part in lyrics
+        li(class='list-group-item')
+          p=part
 block footer
   ul(class='footer')
     li
