@@ -14,7 +14,7 @@ module.exports = {
   getTracks: async (spotifyApi, playlistId) => {
     return spotifyApi.getPlaylistTracks(playlistId, {
         offset: 1,
-        limit: 5,
+        limit: 15,
       })
       .then(
         data => {

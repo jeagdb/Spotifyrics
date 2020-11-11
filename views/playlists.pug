@@ -1,15 +1,44 @@
 extends layout.pug
 
+mixin carousel-caption(item)
+  .carousel-caption(style='background: #1db954; border-radius: 25px;')
+    h1(style="color: white;")=item.track.name
+    p='by ' + item.track.artists[0].name
+    a(href='/lyrics/?name=' + item.track.name + '&artist=' + item.track.artists[0].name, class='list-inline-item btn') 🎤
+
+mixin carousel(id,items)
+  .carousel.slide(id="carousel-" + id , data-ride="carousel")
+    ol.carousel-indicators
+      each item,index in playlistsSongs.get(items.id)
+        if(index === 0)
+          li.active(data-target="#carousel-" + id, data-slide-to=index)
+        else
+          li(data-target="#carousel-" + id, data-slide-to=index)
+
+    .carousel-inner(role="listbox")
+      each item,index in playlistsSongs.get(items.id)
+        if(index === 0)
+          .item.active
+            img.image(src=item.track.album.images[0].url style="margin: auto;")
+            +carousel-caption(item)
+        else
+          .item
+            img.image(src=item.track.album.images[0].url style="margin: auto;")
+            +carousel-caption(item)
+
+    a.left.carousel-control(href="#carousel-" + id, role="button", data-slide="prev" style="color: #1db954;")
+      span.glyphicon(class="glyphicon-chevron-left", aria-hidden="true")
+      span.sr-only Previous
+    a.right.carousel-control(href="#carousel-" + id, role="button", data-slide="next" style="color: #1db954;")
+      span.glyphicon(class="glyphicon-chevron-right", aria-hidden="true")
+      span.sr-only Next
+
 block content
   h1(class="text-center")="Playlists"
   ul(class='list-group list-group-flush')
     each playlist in playlists
-        h3(class='list-group-item active')=playlist.name
-        each song in playlistsSongs.get(playlist.id)
-          ul(class='list-inline ml-5')
-            li(class='list-inline-item font-weight-bold')=song.track.name
-            li(class='list-inline-item')='by ' + song.track.artists[0].name
-            a(href='/lyrics/?name=' + song.track.name + '&artist=' + song.track.artists[0].name, class='list-inline-item btn') 🎤
+      h3(class='list-group-item active')=playlist.name
+      +carousel("myCarousel", playlist)
         
 block footer
   ul(class='footer')

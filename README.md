@@ -10,3 +10,7 @@ Créer un fichier .env avec au moins les variables suivantes:
 - SPOTIFY_CLIENT_SECRET -> récupérable sur le site spotify API (dans le dashboard)
 - SESSION_SECRET
 - PROJECT_DOMAIN -> nom de domaine :warning: Il faut également indiquer cette adresse + '/callback' dans les options des dashboards en tant qu'url de redirection.
+- GENIUS_TOKEN -> récupérable avec l'API genius
+
+## lien vers mon appli perso: https://agile-bayou-87039.herokuapp.com/
+
