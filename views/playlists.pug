@@ -1,17 +1,15 @@
 extends layout.pug
 
 block content
-  h1="My playlists"
+  h1(class="text-center")="Playlists"
   ul(class='list-group list-group-flush')
     each playlist in playlists
-      h3(class='list-group-item')=playlist.name
-        a(href='/tracks')
-        span(class="badge badge-primary badge-pill")=playlist.tracks.total
-      each song in playlistsSongs.get(playlist.id)
-        li(class='list-group-item')
-          p(class='mr-3')=song.track.name
-          p(class='')='by ' + song.track.artists[0].name
-            a(href='/lyrics/?name=' + song.track.name + '&artist=' + song.track.artists[0].name, class='w-100 btn') 🎤
+        h3(class='list-group-item active')=playlist.name
+        each song in playlistsSongs.get(playlist.id)
+          ul(class='list-inline ml-5')
+            li(class='list-inline-item font-weight-bold')=song.track.name
+            li(class='list-inline-item')='by ' + song.track.artists[0].name
+            a(href='/lyrics/?name=' + song.track.name + '&artist=' + song.track.artists[0].name, class='list-inline-item btn') 🎤
         
 block footer
   ul(class='footer')

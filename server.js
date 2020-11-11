@@ -10,7 +10,6 @@ const { getPlaylists, getTracks } = require("./api/spotify.js");
 const redirectUri = process.env.PROJECT_DOMAIN + "/callback";
 const scopes = [];
 const showDialog = true;
-//const REGEXNEWLINE = /^\[.*\]$/gm;
 
 let spotifyApi = new SpotifyWebApi({
   clientId: process.env.SPOTIFY_CLIENT_ID,
@@ -99,6 +98,10 @@ app.get("/lyrics", async function(request, response){
       console.log('searchSong err: ', err);
       return '';
     });
+  if (lyrics === undefined || lyrics === '') {
+    response.render("lyrics", { lyrics : '', author: songArtist });
+    return;
+  }
   lyrics = lyrics.replace(/\n\n/g, '$')
   let splitLyrics = lyrics.split("$");
   response.render("lyrics", { lyrics : splitLyrics, author: songArtist });
