@@ -5,8 +5,8 @@ et propose les lyrics de chacune des chansons.
 Utilisation de l'API spotify + site Genius.
 
 ## Screenshots
-![Alt text](public/spotifyrics_01?raw=true "Page des playlists")
-![Alt text](public/spotifyrics_02?raw=true "Page des lyrics")
+![](public/spotifyrics_01.png "Page des playlists")
+![](public/spotifyrics_02.png "Page des lyrics")
 
 ## Comment lier son compte spotify ?
 Créer un fichier .env avec au moins les variables suivantes: 
