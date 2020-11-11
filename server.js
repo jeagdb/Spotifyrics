@@ -99,12 +99,12 @@ app.get("/lyrics", async function(request, response){
       return '';
     });
   if (lyrics === undefined || lyrics === '') {
-    response.render("lyrics", { lyrics : '', author: songArtist });
+    response.render("lyrics", { lyrics : '', author: songArtist, songName });
     return;
   }
   lyrics = lyrics.replace(/\n\n/g, '$')
   let splitLyrics = lyrics.split("$");
-  response.render("lyrics", { lyrics : splitLyrics, author: songArtist });
+  response.render("lyrics", { lyrics : splitLyrics, author: songArtist, songName });
 });
 
 app.get("/tracks", async function(request, response) {

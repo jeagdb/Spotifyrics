@@ -1,11 +1,11 @@
 extends layout.pug
 
 block content
-  h1="Lyrics"
-    h2=author
+  h1(class="text-center")="Lyrics"
+    h2(class='text-center')=songName
+    h3(class="text-center font-italic")=' by ' + author
       each part in lyrics
-        li(class='list-group-item')
-          p=part
+          h3(style="padding-left: 20%; padding-right: 20%; padding-bottom: 2%;")=part
 block footer
   ul(class='footer')
     li
